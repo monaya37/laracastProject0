@@ -18,33 +18,13 @@ use Illuminate\Support\Facades\File;
 
 Route::get('/', function () {
 
-    // YamlFrontMatter::parseFile($path);
-    //the document has all data in "my-forth-post" including the metadata and the body
-    // YamlFrontMatter::parseFile(
-    //    $document =  resource_path('posts/my-forth-post.html')
-    // );
-
-    $files = File::files(resource_path("posts/"));
-    $posts = [];
-
-    foreach($files as $file){
-        $document = YamlFrontMatter::parseFile($file);
-
-        $posts[] = new Post(
-            $document->title,
-            $document->excerpt,
-            $document->date,
-            $document->body(),
-            $document->slug
-        );
-    }
 
 
 
-    // $posts = Post::all();
+    $posts = Post::all();
 
     return view('posts', [
-        'posts'=> $posts
+        'posts' => $posts
     ]);
 });
 
@@ -57,6 +37,4 @@ Route::get('posts/{post}', function ($slug) {
     return view('post', [
         'post' => $post
     ]);
-  
-
 })->where('post', '[A-z_\-]+');

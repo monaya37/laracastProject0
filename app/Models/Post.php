@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\File;
+use Spatie\YamlFrontMatter\YamlFrontMatter;
+
 
 class Post
 {
@@ -28,7 +30,7 @@ public function __construct($title, $excerpt,$date, $body, $slug){
         //use the File facade, the "files()" method takes a directory
         //it returns a type of "symfony" aka some data about that directory
         //in this example it returns info about the files stored in posts directory (my-#th-post)
-        $files = File::files(resource_path("posts/"));
+        // $files = File::files(resource_path("posts/"));
 
 
         //in the array_map funtion we are looping over y
@@ -38,20 +40,32 @@ public function __construct($title, $excerpt,$date, $body, $slug){
         // الجواب: هو لما يرجع ما يرجعها للاكس هو يكبظ عنصر من الواي ويعطيه للاكس بعدين ممكن اني ناخذ معلومات ذاك العنصر اللي هو اكس
 
         //loop over $files and getContents of each item and pass it to $file
-        return array_map(fn ($file) => $file->getContents(), $files);
+        // return array_map(fn ($file) => $file->getContents(), $files);
+
+        
+    $files = File::files(resource_path("posts/"));
+        return collect($files)
+        ->map(function ($file) {
+            //parse file litterly gets the content of the path
+            return YamlFrontMatter::parseFile($file);
+        })
+        ->map(function ($document) {
+            return new Post(
+                $document->title,
+                $document->excerpt,
+                $document->date,
+                $document->body(),
+                $document->slug
+            );
+        });
+
     }
 
 
     //understood 100%
     public static function find($slug)
     {
-        $path = resource_path("posts/{$slug}.html");
-
-        if (!file_exists($path)) {
-            throw new ModelNotFoundException();
-        }
-
-        // get the content of the path, cache it, then retrun it
-        return cache()->remember("posts.{$slug}", 1200, fn () => file_get_contents($path));
+       $posts = static::all();
+       return $posts->firstWhere('slug' , $slug);
     }
 }
