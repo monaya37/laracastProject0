@@ -43,8 +43,8 @@ public function __construct($title, $excerpt,$date, $body, $slug){
         // return array_map(fn ($file) => $file->getContents(), $files);
 
         
-    $files = File::files(resource_path("posts/"));
-        return collect($files)
+   return cache()->rememberForever('post.all()', function(){
+        return collect(File::files(resource_path("posts/")))
         ->map(function ($file) {
             //parse file litterly gets the content of the path
             return YamlFrontMatter::parseFile($file);
@@ -57,15 +57,26 @@ public function __construct($title, $excerpt,$date, $body, $slug){
                 $document->body(),
                 $document->slug
             );
-        });
+        })->sortByDesc('date');
 
+    });
     }
-
 
     //understood 100%
     public static function find($slug)
     {
-       $posts = static::all();
-       return $posts->firstWhere('slug' , $slug);
+       $post = static::all()->firstWhere('slug' , $slug);
+       return $post;
+    }
+
+    public static function findOrFail($slug)
+    {
+       $post = static::find($slug);
+
+       if(!$post){
+         throw new ModelNotFoundException();
+       }
+
+       return $post;
     }
 }
