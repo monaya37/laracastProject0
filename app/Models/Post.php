@@ -9,4 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
+
+
+    public function categroy(){
+
+        return $this->belongsTo(category::class);
+    }
+    
+    //these two below are only used to deal with mass assignments stuff
+    // $fillable = ['title'];
+    // protected $guarded = ['*'];
 }
