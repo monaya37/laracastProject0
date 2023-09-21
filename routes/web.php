@@ -30,9 +30,9 @@ Route::get('/', function () {
 
 
 //the {post} variable is passed into the $slug value
-Route::get('posts/{post}', function ($slug) {
+Route::get('posts/{post}', function ($id) {
 
-    $post = Post::findOrFail($slug);
+    $post = Post::findOrFail($id);
 
     return view('post', [
         'post' => $post
