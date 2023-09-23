@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+
 use App\Models\Post;
-use League\CommonMark\Extension\FrontMatter\Data\LibYamlFrontMatterParser;
-use Spatie\YamlFrontMatter\YamlFrontMatter;
-use Illuminate\Support\Facades\File;
+use App\Models\Category;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,26 +18,20 @@ use Illuminate\Support\Facades\File;
 
 Route::get('/', function () {
 
-
-
-
-    $posts = Post::all();
-
-    return view('posts', [
-        'posts' => $posts
-    ]);
+    $posts = Post::with('category')->get();
+    return view('posts', ['posts' => $posts]);
 });
 
 
-//the {post} variable is passed into the $slug value
-// Route::get('posts/{post}', function (Post $slug) {
-
 //laravel is smart enough to match the post card (which is the id) with the post
-Route::get('posts/{post}', function (Post $post) {
+Route::get('posts/{post:slug}', function (Post $post) {
 
-    $post = Post::findOrFail($post);
+    //retrun the view 'post' and the varible in the array -which is also a variable in the 'post' view- is assigned to be $post
+    return view('post', ['post' => $post]);
+});
 
-    return view('post', [
-        'post' => $post
-    ]);
+
+Route::get('categories/{category:slug}', function (Category $category) {
+
+    return view('posts', ['posts' => $category->posts]);
 });
