@@ -11,15 +11,16 @@ class Post extends Model
     use HasFactory;
 
     protected $fillable = ['title', 'slug', 'excerpt', 'body', 'category_id'];
+    protected $with =['category' , 'author'];
     
     public function category(){
 
         return $this->belongsTo(Category::class);
     }
 
-    public function user(){
-
-        return $this->belongsTo(User::class);
+    public function author(){
+        //the forgien key is not author_id its user_id so it must be passed otherwise laravel would assume it is author_id
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     // public function getRouteKeyName()
