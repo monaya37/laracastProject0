@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
 
     //with() fn is to solve the n+1 problem
-    $posts = Post::latest();
+    $posts = Post::latest(); //sorting posts by latest i guess
     return view('posts', ['posts' => $posts]);
 });
 

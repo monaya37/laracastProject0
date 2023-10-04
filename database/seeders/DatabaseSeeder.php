@@ -16,7 +16,17 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
     
-        Post::factory(6)->create();
+        $user1 = User::factory()->create([
+            'name' => 'khira'
+        ]);
+
+      
+
+        Post::factory(10)->create([
+            'user_id' => $user1->id,
+
+        ]);
+
 
     }
 }

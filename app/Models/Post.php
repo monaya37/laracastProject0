@@ -10,7 +10,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'slug', 'excerpt', 'body', 'category_id'];
+    protected $guarded = [];
     protected $with =['category' , 'author'];
     
     public function category(){
@@ -28,8 +28,5 @@ class Post extends Model
     //     return 'slug';
     // }
 
-  
-    //these two below are only used to deal with mass assignments stuff
-    // $fillable = ['title'];
-    // protected $guarded = ['*'];
+    
 }
