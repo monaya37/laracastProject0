@@ -1,3 +1,4 @@
+@props(['post'])
 <x-layout>
     {{-- @foreach ($posts as $post)
         <article>
@@ -31,14 +32,15 @@
     <main class="max-w-6xl mx-auto mt-6 lg:mt-20 space-y-6">
 
         @if ($posts->count())
-            {{-- post passed here is a prop in the featured view and the posts[] is a collection of posts aka array of posts --}}
+            {{-- post passed here is a prop in the featured.view and the posts[] is a collection of posts aka array of posts --}}
             <x-post-featured-card :post="$posts[0]" />
 
             @if ($posts->count() > 1)
                 {{-- here we are skipping the first post which is posts[0] because its already used in the featured card --}}
-                <div class="lg:grid lg:grid-cols-2">
+                <div class="lg:grid lg:grid-cols-6">
                     @foreach ($posts->skip(1) as $post)
-                        <x-post-card :post="$post" />
+                        <x-post-card :post="$post"
+                            class="{{ $loop->iteration < 3 ? 'col-span-3' : 'col-span-2' }}" />
                     @endforeach
                 </div>
             @endif

@@ -1,6 +1,7 @@
+{{-- post-card balde is to present it on the home page while the post.blade is to present each as its own --}}
 @props(['post'])
 <article
-class="transition-colors duration-300 hover:bg-gray-100 border border-black border-opacity-0 hover:border-opacity-5 rounded-xl">
+{{$attributes->merge(['class' =>"transition-colors duration-300 hover:bg-gray-100 border border-black border-opacity-0 hover:border-opacity-5 rounded-xl"])}}>
 <div class="py-6 px-5">
     <div>
         <img src="./images/illustration-3.png" alt="Blog Post illustration" class="rounded-xl">
@@ -23,7 +24,7 @@ class="transition-colors duration-300 hover:bg-gray-100 border border-black bord
                 </h1>
 
                 <span class="mt-2 block text-gray-400 text-xs">
-                    Published <time>1 day ago to be changed</time>
+                    Published <time>{{$post->created_at->diffForHumans()}}</time>
                 </span>
             </div>
         </header>
