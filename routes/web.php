@@ -23,7 +23,7 @@ Route::get('/', function () {
     //latest() fn is sorting posts by latest i guess
     //get() fn is to return is as an array
     $posts = Post::latest()->with(['category' , 'author'])->get();
-    return view('posts', ['posts' => $posts]);
+    return view('posts', ['posts' => $posts , 'categories' => Category::all()]);
 });
 
 
