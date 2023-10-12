@@ -22,8 +22,15 @@ Route::get('/', function () {
     //with() fn is to solve the n+1 problem
     //latest() fn is sorting posts by latest i guess
     //get() fn is to return is as an array
-    $posts = Post::latest()->with(['category' , 'author'])->get();
-    return view('posts', ['posts' => $posts , 'categories' => Category::all()]);
+
+    $posts = Post::latest();
+    if(request('search')){
+        $posts
+            ->where('title', 'like', '%' . request('search') . '%')
+            ->orwhere('body', 'like', '%' . request('search') . '%');
+    }
+    
+    return view('posts', ['posts' => $posts->get() , 'categories' => Category::all()]);
 });
 
 
