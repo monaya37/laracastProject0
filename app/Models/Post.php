@@ -23,6 +23,19 @@ class Post extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+
+//i'm lost (;
+    public function scopeFilter($query, array $filters){
+        
+         // the ?? is almost equivilant to isset() fn
+         $query->when($filters['search'] ?? false, function($query, $search){
+            $query
+            ->where('title', 'like', '%' . $search . '%')
+            ->orwhere('body', 'like', '%' . $search . '%');
+         });
+ 
+    }
+
     // public function getRouteKeyName()
     // {
     //     return 'slug';
