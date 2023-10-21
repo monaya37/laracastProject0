@@ -25,13 +25,20 @@ class Post extends Model
 
 
 //i'm lost (;
+//section 7 epi 1
     public function scopeFilter($query, array $filters){
         
-         // the ?? is almost equivilant to isset() fn
+         // the ?? is kinda equivilant to isset() fn
          $query->when($filters['search'] ?? false, function($query, $search){
             $query
             ->where('title', 'like', '%' . $search . '%')
             ->orwhere('body', 'like', '%' . $search . '%');
+         });
+         
+         $query->when($filters['category'] ?? false, function($query, $category){
+            $query->whereHas('category' , fn($query)=>
+                $query->where('slug', $category)
+         );
          });
  
     }

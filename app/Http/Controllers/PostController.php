@@ -13,7 +13,7 @@ class PostController extends Controller
     //with() fn is to solve the n+1 problem
     
         return view('posts', [
-        'posts' => Post::latest()->Filter(request(['search']))->get(),
+        'posts' => Post::latest()->Filter(request(['search' , 'category']))->get(),
         'categories' => Category::all()]);
     }
 
