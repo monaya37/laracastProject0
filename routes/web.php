@@ -25,7 +25,11 @@ Route::get('posts/{post:slug}', [PostController::class , 'show']);
 
 
 //when you get the call of "categories/somthing" inovke the function
-//مفهوم بس الـ أوثر من وين يجيني؟؟ 
+//مفهوم بس الكاتجوري من وين تجيني؟؟ 
+Route::get('categories/{category:slug}', function (Category $category) {
+
+    return view('posts', ['posts' => $category->posts, 'categories' => Category::all(), 'currentCategory' => $category] );
+});
 
 Route::get('authors/{author:username}', function (User $author) {
 
