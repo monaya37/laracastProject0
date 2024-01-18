@@ -24,10 +24,8 @@ Route::get('/', [PostController::class , 'index']);
 Route::get('posts/{post:slug}', [PostController::class , 'show']);
 
 
-Route::get('categories/{category:slug}', function (Category $category) {
-
-    return view('posts', ['posts' => $category->posts, 'categories' => Category::all(), 'currentCategory' => $category] );
-});
+//when you get the call of "categories/somthing" inovke the function
+//مفهوم بس الـ أوثر من وين يجيني؟؟ 
 
 Route::get('authors/{author:username}', function (User $author) {
 

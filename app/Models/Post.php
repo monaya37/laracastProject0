@@ -29,12 +29,14 @@ class Post extends Model
     public function scopeFilter($query, array $filters){
         
          // the ?? is kinda equivilant to isset() fn
+         //wth is query??
          $query->when($filters['search'] ?? false, function($query, $search){
             $query
             ->where('title', 'like', '%' . $search . '%')
             ->orwhere('body', 'like', '%' . $search . '%');
          });
          
+         //get the posts where the categories equals what the user entered aka ===> $category
          $query->when($filters['category'] ?? false, function($query, $category){
             $query->whereHas('category' , fn($query)=>
                 $query->where('slug', $category)
