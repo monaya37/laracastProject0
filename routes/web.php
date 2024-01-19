@@ -26,11 +26,14 @@ Route::get('posts/{post:slug}', [PostController::class , 'show']);
 
 //when you get the call of "categories/somthing" inovke the function
 //مفهوم بس الكاتجوري من وين تجيني؟؟ 
+//الجواب: تجيك من القوس الكيرلي
 Route::get('categories/{category:slug}', function (Category $category) {
 
     return view('posts', ['posts' => $category->posts, 'categories' => Category::all(), 'currentCategory' => $category] );
 });
 
+// the {} capture segments of the URI which in this case in the auther:username 
+//and the $auther is assigend to auther:username
 Route::get('authors/{author:username}', function (User $author) {
 
     return view('posts', ['posts' => $author->posts, 'categories' => Category::all()]);
