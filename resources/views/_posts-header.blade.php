@@ -10,7 +10,7 @@
 
         <!--  Category -->
         <div class="relative lg:inline-flex bg-gray-100 rounded-xl">
-            <x-category-dropdown>
+            <x-category-dropdown/>
         </div>
 
         <!-- Other Filters -->
