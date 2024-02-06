@@ -42,6 +42,13 @@ class Post extends Model
                 $query->where('slug', $category)
          );
          });
+
+         //get the posts where the categories equals what the user entered aka ===> $category
+         $query->when($filters['author'] ?? false, function($query, $author){
+            $query->whereHas('author' , fn($query)=>
+                $query->where('username', $author)
+         );
+         });
  
     }
 

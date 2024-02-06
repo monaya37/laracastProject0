@@ -22,7 +22,9 @@ class CategoryDropdown extends Component
     public function render(): View
     {
         return view('components.category-dropdown', [
-        'categories' => Category::all()
+        'categories' => Category::all(),
+        'currentCategory' =>  Category::firstwhere('slug' ,request('categroy'))
+
         ]
     );
     }

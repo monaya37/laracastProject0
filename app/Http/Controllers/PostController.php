@@ -11,11 +11,10 @@ class PostController extends Controller
 {
     public function index(){
     //with() fn is to solve the n+1 problem
-    
+    //things i pass in the request() are the things i use to search and filter
         return view('posts', [
-        'posts' => Post::latest()->Filter(request(['search' , 'category']))->get(),
+        'posts' => Post::latest()->Filter(request(['search' , 'category', 'author']))->get(),
         'categories' => Category::all(),
-        //'currentCategory' =>  Category::firstwhere('slug' ,request('categroy'))
         ]);
     }
 
